@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Genetic TSP Solver</title>
+        
+        <meta charset="UTF-8">
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/bootstrap-slider.min.css"/>
+        <link rel="stylesheet" href="css/genetic.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2 class="title">Genetic Algorithm for Traveling Salesman Problem</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                    <!--<canvas id="canvas" width="500" height="500">-->
+                    <canvas id="canvas">
+                        (canvas not supported)
+                    </canvas>
+                </div>
+                
+                <div class="col-md-5" id="mainControlsContainer">
+                    <h3>Generation #<span id="generationNumber">0</span></h3>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Individual
+                            </th>
+                            <th>
+                                Distance
+                            </th>
+                            <th>
+                                Fitness
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Best</th>
+                            <td id="bestDistance">???</td>
+                            <td id="bestFitness">???</td>
+                        </tr>
+                        <tr>
+                            <th>Median</th>
+                            <td id="medianDistance">???</td>
+                            <td id="medianFitness">???</td>
+                        </tr>
+                        <tr>
+                            <th>Worst</th>
+                            <td id="worstDistance">???</td>
+                            <td id="worstFitness">???</td>
+                        </tr>
+                    </table>
+
+                    <p class="h4">All-time best distance: <span id="allTimeBestDistance">???</span>
+                        (generation #<span id="allTimeBestGeneration">???</span>)</p>
+                    
+                    <p>All-time best sequence: <span id="allTimeBestSequence">???</span></p>
+                </div>
+                
+<!--                <div class="col-xs-5">
+                    TODO: GA controls
+                </div>-->
+<!--            </div>
+            <div class="row">-->
+                <div class="col-md-5" id="configFormContainer" style="display: none;">
+                    <form id="configForm" onsubmit="return false;">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Problem parameters</div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-sm">
+                                            <label for="cityCount">Number of cities</label>
+                                            <input type="number" class="form-control form-control-sm" name="cityCount" id="cityCount" placeholder="N" value="24" min="0" step="1">
+                                        </div>
+                                        <fieldset class="form-group form-group-sm">
+                                            <label>City placement</label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="cityPlacement" id="cityPlacementCircular" value="CIRCULAR" checked>
+                                                    Circular
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="cityPlacement" id="cityPlacementRandom" value="RANDOM">
+                                                    Random
+                                                </label>
+                                            </div>
+                                            <div class="radio disabled">
+                                                <label>
+                                                    <input type="radio" name="cityPlacement" id="cityPlacementManual" value="Manual" disabled>
+                                                    Manual
+                                                </label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <button type="submit" class="btn btn-primary btn-config-action">OK</button>
+                                        <button id="cancelButton" type="button" class="btn btn-default btn-config-action" disabled="disabled">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+<!--                        </div>
+
+
+                        <div class="row">-->
+                            <div class="col-xs-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">GA parameters</div>
+                                    <div class="panel-body">
+                                        <div class="form-group form-group-sm">
+                                            <label for="populationSize">Population size</label>
+                                            <input type="number" class="form-control form-control-sm" name="populationSize" id="populationSize" placeholder="N" value="100" min="1" step="1">
+                                        </div>
+                                        <div class="form-group form-group-sm">
+                                            <label for="crossoverRate">Crossover rate</label>
+                                            <input type="number" class="form-control form-control-sm" name="crossoverRate" id="crossoverRate" placeholder="N" value="1.00" min="0" max="1" step="0.01">
+                                        </div>
+                                        <div class="form-group form-group-sm">
+                                            <label for="mutationRate">Mutation rate</label>
+                                            <input type="number" class="form-control form-control-sm" name="mutationRate" id="mutationRate" placeholder="N" value="0.1" min="0" max="1" step="0.01">
+                                        </div>
+                                        <div class="form-group form-group-sm">
+                                            <label for="eliteCount">Number of elites</label>
+                                            <input type="number" class="form-control form-control-sm" name="eliteCount" id="eliteCount" placeholder="N" value="0" min="0" step="1">
+                                            <label for="eliteCopies">Number of copies per elite</label>
+                                            <input type="number" class="form-control form-control-sm" name="eliteCopies" id="eliteCopies" placeholder="N" value="0" min="0" step="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<!--                        <div class="row">
+                            <div class="col-xs-4">
+                                <button id="cancelButton" type="button" class="btn btn-default" disabled="disabled">Cancel</button>
+                                <button type="submit" class="btn btn-primary">OK</button>
+                            </div>
+                        </div>-->
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Dependencies -->
+        <script src="js/libraries/jquery-3.2.1.min.js"></script>
+        <script src="js/libraries/bootstrap.min.js"></script>
+        
+        <script src="js/libraries/traceur.js"></script>
+        <script src="js/libraries/BrowserSystem.js"></script>
+        <script src="js/libraries/bootstrap.js"></script>
+        
+        <script src="js/libraries/fabric.min.js"></script>
+
+        <script src="js/libraries/plotly-latest.min.js"></script>
+        
+        <script src="js/libraries/bootstrap-slider.min.js"></script>
+
+        <!-- Custom scripts -->
+        <script type="module">
+            import 'js/inline.js';
+        </script>
+    </body>
+</html>
