@@ -24,3 +24,14 @@
     width: 100%;
     margin-bottom: 10px;
 }
+
+#loadingIndicatorContainer
+{
+    padding: auto;
+}
+
+#loadingIndicator
+{
+    display: block;
+    margin: 0 auto;
+}

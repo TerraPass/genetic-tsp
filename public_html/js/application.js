@@ -5,13 +5,14 @@ import {GeneticAlgorithm, BasicTSPGeneticAlgorithmImpl} from 'js/genetic.js';
 class UI
 {
     // TODO: Remove unneeded parameter(s) and field(s).
-    constructor(application, canvas, configFormContainer, mainControlsContainer)
+    constructor(application, canvas, configFormContainer, mainControlsContainer, loadingIndicatorContainer)
     {
         this._app = application;
         this._canvas = canvas;
         this._configFormContainer = configFormContainer;
         this._configForm = this._configFormContainer.find('#configForm');
         this._mainControlsContainer = mainControlsContainer;
+        this._loadingIndicatorContainer = loadingIndicatorContainer;
 
         var rawCanvas = $('#canvas')[0];
         UI._fitCanvasToParent(rawCanvas, 0.45*$(window).height());
@@ -66,6 +67,7 @@ class UI
 
     _openConfigForm()
     {
+        this._loadingIndicatorContainer.hide();
         this._mainControlsContainer.hide();
         this._configFormContainer.show();
     }

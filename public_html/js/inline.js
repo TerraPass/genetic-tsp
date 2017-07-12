@@ -7,5 +7,5 @@ var ui = null;
 
 $(function() {
     app = new Application();
-    ui = new UI(app, $('#canvas'), $('#configFormContainer'), $('#mainControlsContainer'));
+    ui = new UI(app, $('#canvas'), $('#configFormContainer'), $('#mainControlsContainer'), $('#loadingIndicatorContainer'));
 });
