@@ -25,6 +25,16 @@
     margin-bottom: 10px;
 }
 
+#mainControlsButtonGroup
+{
+    width: 100%;
+}
+
+.main-control-button
+{
+    width: 32%;
+}
+
 #loadingIndicatorContainer
 {
     padding: auto;
@@ -35,3 +45,4 @@
     display: block;
     margin: 0 auto;
 }
+

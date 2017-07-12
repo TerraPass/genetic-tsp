@@ -87,6 +87,18 @@
                         (generation #<span id="allTimeBestGeneration">???</span>)</p>
                     
                     <!--<p>All-time best sequence: <span id="allTimeBestSequence">???</span></p>-->
+                    
+                    <div id="mainControlsButtonGroup" class="btn-group" role="group" aria-label="Main controls">
+                        <button id="playPauseButton" type="button" class="btn btn-default main-control-button">
+                            Play/Pause
+                        </button>
+                        <button id="restartButton" type="button" class="btn btn-primary main-control-button">
+                            Restart
+                        </button>
+                        <button id="resetButton" type="button" class="btn btn-danger main-control-button" onclick="window.location = window.location;">
+                            Reset
+                        </button>
+                    </div>
                 </div>
                 
 <!--                <div class="col-xs-5">
@@ -149,7 +161,7 @@
                                         </div>
                                         <div class="form-group form-group-sm">
                                             <label for="crossoverRate">Crossover rate</label>
-                                            <input type="number" class="form-control form-control-sm" name="crossoverRate" id="crossoverRate" placeholder="N" value="0.75" min="0" max="1" step="0.01">
+                                            <input type="number" class="form-control form-control-sm" name="crossoverRate" id="crossoverRate" placeholder="N" value="0.6" min="0" max="1" step="0.01">
                                         </div>
                                         <div class="form-group form-group-sm">
                                             <label for="mutationRate">Mutation rate</label>

@@ -56,6 +56,29 @@ class UI
             () => self._closeConfigForm()
         );
 
+        // Setup play/pause button
+        this._playPauseButton = this._mainControlsContainer.find('#playPauseButton');
+        this._playPauseButton.on(
+            'click',
+            () => self._app.togglePause()
+        );
+
+        // Setup restart button
+        this._restartButton = this._mainControlsContainer.find('#restartButton');
+        this._restartButton.on(
+            'click',
+            function()
+            {
+                var wasPaused = self._app.isPaused;
+                self._app.pause();
+                self._onConfigSubmit(true);
+                if(wasPaused)
+                {
+                    self._app.pause();
+                }
+            }
+        );
+
         this._onConfigSubmit(false);
         this._openConfigForm();
     }
@@ -210,41 +233,81 @@ class Application
             clearInterval(this._interval);
         }
 
+        this._allTimeBestDistance = this._geneticAlgorithm.allTimeBestGenome.distance;
+        this._allTimeBestGeneration = this._geneticAlgorithm.allTimeBestGeneration;  // 0
+//        this._allTimeBestSequence = this._geneticAlgorithm.allTimeBestGenome.sequence;
+
         if(run)
         {
-            var self = this;
-            
-            this._allTimeBestDistance = this._geneticAlgorithm.allTimeBestGenome.distance;
-            this._allTimeBestGeneration = this._geneticAlgorithm.allTimeBestGeneration;  // 0
-//            this._allTimeBestSequence = this._geneticAlgorithm.allTimeBestGenome.sequence;
-            
-//            console.log("Generation " + self._geneticAlgorithm.currentState.generation);
-//            self._geneticAlgorithm.epoch();
-//            self._ui.update(self._geneticAlgorithm.currentState);
+            this.play();
+        }
+        
+        this._updateUi();
+    }
+    
+    play()
+    {
+        if(this._interval !== null)
+        {
+            return;
+        }
 
-            this._interval = setInterval(
-                function()
+        var self = this;
+
+        this._interval = setInterval(                
+            function()
+            {
+                //console.log("Generation " + self._geneticAlgorithm.currentState.generation);
+                self._geneticAlgorithm.epoch();
+
+                if(self._geneticAlgorithm.currentState.bestGenome.distance < self._allTimeBestDistance)
                 {
-                    //console.log("Generation " + self._geneticAlgorithm.currentState.generation);
-                    self._geneticAlgorithm.epoch();
-
-                    if(self._geneticAlgorithm.currentState.bestGenome.distance < self._allTimeBestDistance)
-                    {
-                        self._allTimeBestDistance = self._geneticAlgorithm.currentState.bestGenome.distance;
-                        self._allTimeBestGeneration = self._geneticAlgorithm.currentState.generation;
+                    self._allTimeBestDistance = self._geneticAlgorithm.currentState.bestGenome.distance;
+                    self._allTimeBestGeneration = self._geneticAlgorithm.currentState.generation;
 //                        self._allTimeBestSequence = self._geneticAlgorithm.currentState.bestGenome.sequence;
-                    }
+                }
 
-                    self._currentStateView.refresh(self._geneticAlgorithm.currentState);
-                    self._ui.update(
-                        self._geneticAlgorithm.currentState, 
-                        self._allTimeBestDistance, 
-                        self._allTimeBestGeneration//,
-                        //self._allTimeBestSequence
-                    );
-                },
-                0 // GA update interval
-            );
+                self._updateUi();
+            },
+            0 // GA update interval
+        );
+    }
+
+    _updateUi()
+    {
+        this._currentStateView.refresh(this._geneticAlgorithm.currentState);
+        this._ui.update(
+            this._geneticAlgorithm.currentState, 
+            this._allTimeBestDistance, 
+            this._allTimeBestGeneration//,
+            //this._allTimeBestSequence
+        );
+    }
+
+    pause()
+    {
+        if(this._interval === null)
+        {
+            return;
+        }
+        clearInterval(this._interval);
+        this._interval = null;
+    }
+    
+    get isPaused()
+    {
+        return (this._interval === null);
+    }
+    
+    togglePause()
+    {
+        if(this.isPaused)
+        {
+            this.play();
+        }
+        else
+        {
+            this.pause();
         }
     }
     
