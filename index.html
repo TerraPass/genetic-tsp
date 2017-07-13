@@ -2,11 +2,11 @@
 <html>
     <head>
         <title>Genetic Algorithm for TSP</title>
-        
+
         <meta charset="UTF-8">
         <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        
+
         <!--favicon-->
         <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
@@ -25,12 +25,17 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
-        
+
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/bootstrap-slider.min.css"/>
         <link rel="stylesheet" href="css/genetic.css"/>
     </head>
     <body>
+        <!--"Fork me on Github" ribbon-->
+        <a href="https://github.com/TerraPass/genetic-tsp">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+        </a>
+
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -51,7 +56,7 @@
                         (canvas not supported)
                     </canvas>
                 </div>
-                
+
                 <div class="col-md-5" id="mainControlsContainer" style="display: none;">
                     <h3>Generation #<span id="generationNumber">0</span></h3>
                     <table class="table">
@@ -85,9 +90,9 @@
 
                     <p class="h4">All-time best distance: <span id="allTimeBestDistance">???</span>
                         (generation #<span id="allTimeBestGeneration">???</span>)</p>
-                    
+
                     <!--<p>All-time best sequence: <span id="allTimeBestSequence">???</span></p>-->
-                    
+
                     <div id="mainControlsButtonGroup" class="btn-group" role="group" aria-label="Main controls">
                         <button id="playPauseButton" type="button" class="btn btn-default main-control-button">
                             Play/Pause
@@ -100,12 +105,12 @@
                         </button>
                     </div>
                 </div>
-                
-<!--                <div class="col-xs-5">
-                    TODO: GA controls
-                </div>-->
-<!--            </div>
-            <div class="row">-->
+
+                <!--                <div class="col-xs-5">
+                                    TODO: GA controls
+                                </div>-->
+                <!--            </div>
+                            <div class="row">-->
                 <div class="col-md-5" id="configFormContainer" style="display: none;">
                     <form id="configForm" onsubmit="return false;">
                         <div class="row">
@@ -147,10 +152,10 @@
                                     </div>
                                 </div>
                             </div>
-<!--                        </div>
-
-
-                        <div class="row">-->
+                            <!--                        </div>
+                            
+                            
+                                                    <div class="row">-->
                             <div class="col-xs-6">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">GA parameters</div>
@@ -178,30 +183,30 @@
                             </div>
                         </div>
 
-<!--                        <div class="row">
-                            <div class="col-xs-4">
-                                <button id="cancelButton" type="button" class="btn btn-default" disabled="disabled">Cancel</button>
-                                <button type="submit" class="btn btn-primary">OK</button>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="row">
+                                                    <div class="col-xs-4">
+                                                        <button id="cancelButton" type="button" class="btn btn-default" disabled="disabled">Cancel</button>
+                                                        <button type="submit" class="btn btn-primary">OK</button>
+                                                    </div>
+                                                </div>-->
                     </form>
                 </div>
             </div>
 
         </div>
-        
+
         <!-- Dependencies -->
         <script src="js/libraries/jquery-3.2.1.min.js"></script>
         <script src="js/libraries/bootstrap.min.js"></script>
-        
+
         <script src="js/libraries/traceur.js"></script>
         <script src="js/libraries/BrowserSystem.js"></script>
         <script src="js/libraries/bootstrap.js"></script>
-        
+
         <script src="js/libraries/fabric.min.js"></script>
 
         <script src="js/libraries/plotly-latest.min.js"></script>
-        
+
         <script src="js/libraries/bootstrap-slider.min.js"></script>
 
         <!-- Custom scripts -->
