@@ -68,6 +68,8 @@ class GeneticAlgorithm
         this.epoch();  // Prime the algorithm
     }
 
+    // TODO: Add a periodic "nuke" (apocalypse), which would replace the bottom X percent of the population
+    // with random individuals. Make apocalypse period and apocalypse survival percentage new parameters for the algorithm.
     epoch()
     {
         // If this is not a priming run
@@ -375,6 +377,9 @@ class BasicTSPGeneticAlgorithmImpl
     }
     
     // Exchange mutation operator
+    // TODO: Add per-gene mutation rate, which would be passed into this function and affect the percent of swapped genes.
+    // I.e. mutation rate would determine whether a genome is mutated at all, while per-gene mutation rate would determine,
+    // assuming the genome *is* being mutated, whether to swap a gene.
     mutate(genome)
     {
         var length = genome.sequence.length;
