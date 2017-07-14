@@ -126,22 +126,37 @@ class UI
         if(currentState.generation === 0)
         {
             var plot = this._mainControlsContainer.find('#plot');
-            var plotWidth = this._mainControlsContainer.width()*0.95;
+            var plotWidth = this._mainControlsContainer.width()*0.86;
             //console.log(plotWidth);
             Plotly.newPlot(
                 'plot',
                 [
                     {
+                        name : 'best',
                         x : [0],
-                        y : [currentState.bestGenome.distance]
+                        y : [currentState.bestGenome.distance],
+                        mode : 'lines',
+                        line : {
+                            color : '#000000'
+                        }
                     },
                     {
+                        name : 'median',
                         x : [0],
-                        y : [currentState.medianGenome.distance]
+                        y : [currentState.medianGenome.distance],
+                        mode : 'lines',
+                        line : {
+                            color : '#B0B0B0'
+                        }
                     },
                     {
+                        name : 'worst',
                         x : [0],
-                        y : [currentState.worstGenome.distance]
+                        y : [currentState.worstGenome.distance],
+                        mode : 'lines',
+                        line : {
+                            color : '#E0E0E0'
+                        }
                     }
                 ],
                 {
@@ -155,7 +170,17 @@ class UI
                     height : plot.height(),
                     width : plotWidth,
                     
-                    showlegend : false
+                    showlegend : true,
+                    legend : {
+                        x : 1,
+                        y : 1,
+                        traceorder : 'reversed',
+                        //font : {size: 16},
+                        //yref : 'paper',
+                        bgcolor : 'transparent',
+                        orientation : 'h'
+                        
+                    }
                 },
                 {
                     displayModeBar: false,
