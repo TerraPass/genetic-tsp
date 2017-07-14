@@ -1,39 +1,39 @@
 import * as debug from 'js/debug.js';
 
-var SelectionType = Object.freeze({
-    ROULETTE    : 0,
-    TOURNAMENT  : 1,
-    SUS         : 2,    // Stochastic Universal Sampling
-    STEADY      : 3    // Steady State Selection
-    // etc.
-});
+//var SelectionType = Object.freeze({
+//    ROULETTE    : 0,
+//    TOURNAMENT  : 1,
+//    SUS         : 2,    // Stochastic Universal Sampling
+//    STEADY      : 3    // Steady State Selection
+//    // etc.
+//});
 
-var CrossoverType = Object.freeze({
-    PMX : 0,    // Partially Matched Crossover
-    CX  : 1,    // Cycle Crossover
-    OBX : 2,    // Order Based Crossover
-    PBX : 3     // Position Based Crossover
-    // etc.
-});
+//var CrossoverType = Object.freeze({
+//    PMX : 0,    // Partially Matched Crossover
+//    CX  : 1,    // Cycle Crossover
+//    OBX : 2,    // Order Based Crossover
+//    PBX : 3     // Position Based Crossover
+//    // etc.
+//});
 
-var MutationType = Object.freeze({
-    NONE        : 0,
-    EXCHANGE    : 1,
-    SCRAMBLE    : 2,
-    DM          : 3,    // Displacement Mutation
-    INSERTION   : 4,
-    INVERSION   : 5,
-    DIVM        : 6    // Displacement Inversion Mutation
-    // etc.
-});
+//var MutationType = Object.freeze({
+//    NONE        : 0,
+//    EXCHANGE    : 1,
+//    SCRAMBLE    : 2,
+//    DM          : 3,    // Displacement Mutation
+//    INSERTION   : 4,
+//    INVERSION   : 5,
+//    DIVM        : 6    // Displacement Inversion Mutation
+//    // etc.
+//});
 
-var ScalingType = Object.freeze({
-    NONE        : 0,
-    RANK        : 1,
-    SIGMA       : 2,
-    BOLTZMAN    : 3
-    // etc.
-});
+//var ScalingType = Object.freeze({
+//    NONE        : 0,
+//    RANK        : 1,
+//    SIGMA       : 2,
+//    BOLTZMAN    : 3
+//    // etc.
+//});
 
 class GeneticAlgorithm
 {
@@ -407,10 +407,10 @@ class BasicTSPGeneticAlgorithmImpl
 }
 
 export {
-    SelectionType,
-    CrossoverType,
-    MutationType,
-    ScalingType,
+//    SelectionType,
+//    CrossoverType,
+//    MutationType,
+//    ScalingType,
     
     GeneticAlgorithm,
     
