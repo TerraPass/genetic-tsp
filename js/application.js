@@ -121,6 +121,63 @@ class UI
         this._mainControlsContainer.find('#allTimeBestDistance').text(allTimeBestDistance.toPrecision(6));
         this._mainControlsContainer.find('#allTimeBestGeneration').text(allTimeBestGeneration);
 //        this._mainControlsContainer.find('#allTimeBestSequence').text(allTimeBestSequence.toString());
+
+        // If this is the first generation, reinit distance plot
+        if(currentState.generation === 0)
+        {
+            var plot = this._mainControlsContainer.find('#plot');
+            var plotWidth = this._mainControlsContainer.width()*0.95;
+            //console.log(plotWidth);
+            Plotly.newPlot(
+                'plot',
+                [
+                    {
+                        x : [0],
+                        y : [currentState.bestGenome.distance]
+                    },
+                    {
+                        x : [0],
+                        y : [currentState.medianGenome.distance]
+                    },
+                    {
+                        x : [0],
+                        y : [currentState.worstGenome.distance]
+                    }
+                ],
+                {
+                    margin : {
+                        t : 0,
+                        l : 0,
+                        b : 0,
+                        r : 0,
+                        autoexpand : true
+                    },
+                    height : plot.height(),
+                    width : plotWidth,
+                    
+                    showlegend : false
+                },
+                {
+                    displayModeBar: false,
+                    staticPlot: true
+                }
+            );
+        }
+        else    // Otherwise, update the plot with the data for the current generation
+        {
+            Plotly.extendTraces(
+                'plot',
+                {
+                    x : Array(3).fill([currentState.generation]),
+                    y : [
+                        [currentState.bestGenome.distance],
+                        [currentState.medianGenome.distance],
+                        [currentState.worstGenome.distance]
+                    ]
+                },
+                [0, 1, 2]
+            );
+        }
     }
 
     static _getFormAsObject(form)
