@@ -86,15 +86,19 @@ class GeneticAlgorithm
 
             var totalFitness = this._populationStats.reduce((soFar, stat) => soFar + stat.fitness, 0);
 
+            var self = this;
+
             // Fill the rest with "children" of the old genomes
-            for(var i = this._totalElites; i < this._populationSize; i++)
+            while(newPopulation.length < this._populationSize)
             {
                 var parent0 = this._impl.selectGenome(this._populationStats, totalFitness);
                 var parent1 = this._impl.selectGenome(this._populationStats, totalFitness);
                 
                 // TODO: Force parents to be different?
                 
-                newPopulation[i] = this._maybeMutate(this._maybeCrossover(parent0, parent1));
+                // Add all of the children, resulting from this crossover, into the new population, after maybe-mutating them.
+                // If this causes the population to become bigger than _populationSize, it will be sliced down after scoring.
+                newPopulation = newPopulation.concat(this._maybeCrossover(parent0, parent1).map((genome) => self._maybeMutate(genome)));
             }
 
             this._population = newPopulation;
@@ -110,6 +114,13 @@ class GeneticAlgorithm
                 fitness : this._impl.fitness(g)
             })
         ).sort((stat0, stat1) => stat1.fitness - stat0.fitness);
+
+        // If population is bigger than _populationSize, slice it down
+        if(this._population.length > this._populationSize)
+        {
+            this._populationStats = this._populationStats.slice(0, this._populationSize);
+            this._population = this._populationStats.map((stat) => stat.genome);
+        }
 
         // Update current best, median and worst stats
         this._bestStat = this._populationStats[0];
@@ -133,7 +144,8 @@ class GeneticAlgorithm
         }
         else
         {
-            return parent0;
+            // Children are exact copies of parents
+            return [parent0, parent1];
         }
     }
     
@@ -311,7 +323,14 @@ class BasicTSPGeneticAlgorithmImpl
         
     }
     
-    // Partially Matched Crossover
+    /**
+     * Applies partially mapped crossover to the given 2 parents in order to obtain
+     * 2 new children.
+     * 
+     * @param {Genome} parent0 "Mum" genome.
+     * @param {Genome} parent1 "Dad" genome.
+     * @returns {Array} Children of the given parents.
+     */
     crossover(parent0, parent1)
     {
         debug.ensure(parent0.sequence.length === parent1.sequence.length, parent1, "parent1", "Lengths of both parent sequences must match");
@@ -339,16 +358,20 @@ class BasicTSPGeneticAlgorithmImpl
 //        return new Genome(this._cities, parent0.sequence.slice().map((el) => mapping[el] !== undefined ? mapping[el] : el));
 
         // TODO: Verify that the below implementation of PMX is correct!!
-        var childSequence = parent0.sequence.slice();
+        var child0Sequence = parent0.sequence.slice();
+        var child1Sequence = parent1.sequence.slice();
         for(var i = start; i < end+1; i++)
         {
             var lhs = parent0.sequence[i];
             var rhs = parent1.sequence[i];
 
-            childSequence = childSequence.map((el) => el === lhs ? rhs : (el === rhs ? lhs : el));
+            child0Sequence = child0Sequence.map((el) => el === lhs ? rhs : (el === rhs ? lhs : el));
+            child1Sequence = child1Sequence.map((el) => el === rhs ? lhs : (el === lhs ? rhs : el));
         }
 
-        return new Genome(this._cities, childSequence);
+        // Return 2 children
+        //console.log("Crossover between "+parent0.sequence+" and "+parent1.sequence+" produced children: "+child0Sequence+" and "+child1Sequence);
+        return [new Genome(this._cities, child0Sequence), new Genome(this._cities, child1Sequence)];
     }
     
     // Exchange mutation operator
