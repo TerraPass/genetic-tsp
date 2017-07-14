@@ -131,7 +131,7 @@ class UI
                 mode : 'markers',
                 marker : {
                 color : 'rgb(231, 76, 60)',
-                    size : 10,
+                    size : 8,
                     symbol : 'star'
                 }
             };
@@ -147,14 +147,13 @@ class UI
             Plotly.newPlot(
                 'plot',
                 [
-                    getAllTimeBestObject(0, allTimeBestDistance),
                     {
-                        name : 'best',
+                        name : 'worst',
                         x : [0],
-                        y : [currentState.bestGenome.distance],
+                        y : [currentState.worstGenome.distance],
                         mode : 'lines',
                         line : {
-                            color : '#000000'
+                            color : '#E0E0E0'
                         }
                     },
                     {
@@ -167,14 +166,15 @@ class UI
                         }
                     },
                     {
-                        name : 'worst',
+                        name : 'best',
                         x : [0],
-                        y : [currentState.worstGenome.distance],
+                        y : [currentState.bestGenome.distance],
                         mode : 'lines',
                         line : {
-                            color : '#E0E0E0'
+                            color : '#000000'
                         }
-                    }
+                    },
+                    getAllTimeBestObject(0, allTimeBestDistance)
                 ],
                 {
                     margin : {
@@ -192,7 +192,7 @@ class UI
                     legend : {
                         x : 1,
                         y : 1,
-                        traceorder : 'reversed',
+                        //traceorder : 'reversed',
                         font : {size: 10},
                         //yref : 'paper',
                         bgcolor : 'transparent',
@@ -211,11 +211,10 @@ class UI
             // If a breakthrough has just occurred
             if(allTimeBestGeneration === currentState.generation)
             {
-                Plotly.deleteTraces('plot', 0);
+                Plotly.deleteTraces('plot', 3);
                 Plotly.addTraces(
                     'plot',
-                    getAllTimeBestObject(allTimeBestGeneration, allTimeBestDistance),
-                    0
+                    getAllTimeBestObject(allTimeBestGeneration, allTimeBestDistance)
                 );
             }
             Plotly.extendTraces(
@@ -223,12 +222,12 @@ class UI
                 {
                     x : Array(3).fill([currentState.generation]),
                     y : [
-                        [currentState.bestGenome.distance],
+                        [currentState.worstGenome.distance],
                         [currentState.medianGenome.distance],
-                        [currentState.worstGenome.distance]
+                        [currentState.bestGenome.distance]
                     ]
                 },
-                [1, 2, 3]
+                [0, 1, 2]
             );
         }
     }
