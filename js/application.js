@@ -122,15 +122,32 @@ class UI
         this._mainControlsContainer.find('#allTimeBestGeneration').text(allTimeBestGeneration);
 //        this._mainControlsContainer.find('#allTimeBestSequence').text(allTimeBestSequence.toString());
 
+        // Function, yielding the data object for all-time best marker on the plot
+        var getAllTimeBestObject = function (generation, distance) {
+            return {
+                name : 'all-time best',
+                x : [generation],
+                y : [distance],
+                mode : 'markers',
+                marker : {
+                color : 'rgb(231, 76, 60)',
+                    size : 10,
+                    symbol : 'star'
+                }
+            };
+        };
+
         // If this is the first generation, reinit distance plot
         if(currentState.generation === 0)
         {
             var plot = this._mainControlsContainer.find('#plot');
             var plotWidth = this._mainControlsContainer.width()*0.86;
             //console.log(plotWidth);
+            
             Plotly.newPlot(
                 'plot',
                 [
+                    getAllTimeBestObject(0, allTimeBestDistance),
                     {
                         name : 'best',
                         x : [0],
@@ -175,7 +192,7 @@ class UI
                         x : 1,
                         y : 1,
                         traceorder : 'reversed',
-                        //font : {size: 16},
+                        font : {size: 10},
                         //yref : 'paper',
                         bgcolor : 'transparent',
                         orientation : 'h'
@@ -190,6 +207,16 @@ class UI
         }
         else    // Otherwise, update the plot with the data for the current generation
         {
+            // If a breakthrough has just occurred
+            if(allTimeBestGeneration === currentState.generation)
+            {
+                Plotly.deleteTraces('plot', 0);
+                Plotly.addTraces(
+                    'plot',
+                    getAllTimeBestObject(allTimeBestGeneration, allTimeBestDistance),
+                    0
+                );
+            }
             Plotly.extendTraces(
                 'plot',
                 {
@@ -200,7 +227,7 @@ class UI
                         [currentState.worstGenome.distance]
                     ]
                 },
-                [0, 1, 2]
+                [1, 2, 3]
             );
         }
     }
