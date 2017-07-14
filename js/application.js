@@ -44,8 +44,8 @@ class UI
         this._configForm.on(
             'submit',
             function () {
-                self._onConfigSubmit(true);
                 self._closeConfigForm();
+                self._onConfigSubmit(true);
             }
         );
         
@@ -126,7 +126,7 @@ class UI
         if(currentState.generation === 0)
         {
             var plot = this._mainControlsContainer.find('#plot');
-            var plotWidth = this._mainControlsContainer.width()*0.86;
+            //var plotWidth = this._mainControlsContainer.width()*0.86;
             //console.log(plotWidth);
             Plotly.newPlot(
                 'plot',
@@ -164,11 +164,12 @@ class UI
                         t : 0,
                         l : 0,
                         b : 0,
-                        r : 0,
-                        autoexpand : true
+                        r : 0//,
+                        //autoexpand : true
                     },
                     height : plot.height(),
-                    width : plotWidth,
+                    //width : plotWidth,
+                    width: plot.width(),
                     
                     showlegend : true,
                     legend : {
